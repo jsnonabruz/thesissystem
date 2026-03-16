@@ -214,6 +214,189 @@
                 </section>
             </div>
         </main>
+
+        <!-- Main Content: Machines -->
+        <main class="main-content view-section" id="viewMachines" style="display: none;">
+            <header>
+                <h1>IoT Device Management</h1>
+            </header>
+
+            <div class="content-grid">
+                <!-- Device Registry -->
+                <section class="panel backlog-panel">
+                    <h2>Machine Registry</h2>
+                    <div class="table-container">
+                        <table class="backlog-table">
+                            <thead>
+                                <tr>
+                                    <th>Device ID</th>
+                                    <th>Machine Name</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Last Ping</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="registryBody">
+                                <tr>
+                                    <td>HINO-C-01</td>
+                                    <td>CNC Unit Alpha</td>
+                                    <td>Milling</td>
+                                    <td><span class="status-badge status-success">Online</span></td>
+                                    <td>2s ago</td>
+                                    <td><button class="btn-small">Diagnostics</button></td>
+                                </tr>
+                                <tr>
+                                    <td>HINO-W-04</td>
+                                    <td>Robotic Welder 4</td>
+                                    <td>Welding</td>
+                                    <td><span class="status-badge status-success">Online</span></td>
+                                    <td>5s ago</td>
+                                    <td><button class="btn-small">Diagnostics</button></td>
+                                </tr>
+                                <tr>
+                                    <td>HINO-P-02</td>
+                                    <td>Paint Booth B</td>
+                                    <td>Painting</td>
+                                    <td><span class="status-badge status-warning" style="background: rgba(255, 183, 0, 0.15); color: var(--warning); border: 1px solid rgba(255, 183, 0, 0.3);">Maintenance</span></td>
+                                    <td>12m ago</td>
+                                    <td><button class="btn-small">Diagnostics</button></td>
+                                </tr>
+                                <tr>
+                                    <td>HINO-A-11</td>
+                                    <td>Assembly Conveyor 11</td>
+                                    <td>Assembly</td>
+                                    <td><span class="status-badge status-danger" style="background: rgba(255, 51, 102, 0.15); color: var(--danger); border: 1px solid rgba(255, 51, 102, 0.3);">Offline</span></td>
+                                    <td>2h ago</td>
+                                    <td><button class="btn-small">Diagnostics</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Add New Machine -->
+                <section class="panel input-panel" style="grid-column: 1 / 2;">
+                    <h2>Commission New Machine</h2>
+                    <form id="newMachineForm">
+                        <div class="form-group">
+                            <label for="newMachineName">Machine Name:</label>
+                            <input type="text" id="newMachineName" placeholder="e.g., CNC Unit Beta" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newMachineType">Machine Type:</label>
+                            <select id="newMachineType" required>
+                                <option value="cnc">CNC Milling Machine</option>
+                                <option value="welding">Welding Machine</option>
+                                <option value="cutting">Cutting Machine</option>
+                                <option value="assembly">Assembly Line Equipment</option>
+                                <option value="painting">Painting Machine</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="macAddress">IoT Gateway MAC Address:</label>
+                            <input type="text" id="macAddress" placeholder="00:1B:44:11:3A:B7" required>
+                        </div>
+                        <button type="submit" class="btn-primary" style="margin-top: 1rem;">
+                            <span>Register Device</span>
+                        </button>
+                    </form>
+                </section>
+
+                <!-- Machine Health Summary -->
+                <section class="panel analytics-panel" style="grid-column: 2 / 3;">
+                    <h2>Fleet Health Summary</h2>
+                    <div class="health-summary">
+                        <div class="health-card">
+                            <h3>Total Units</h3>
+                            <div class="health-val">42</div>
+                        </div>
+                        <div class="health-card">
+                            <h3>Online</h3>
+                            <div class="health-val" style="color: var(--success);">38</div>
+                        </div>
+                        <div class="health-card">
+                            <h3>Maintenance</h3>
+                            <div class="health-val" style="color: var(--warning);">3</div>
+                        </div>
+                        <div class="health-card">
+                            <h3>Offline</h3>
+                            <div class="health-val" style="color: var(--danger);">1</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 2rem; padding: 1rem; background: rgba(255,183,0,0.1); border-left: 4px solid var(--warning); border-radius: 4px;">
+                        <h4 style="color: var(--warning); margin-bottom: 0.5rem;">Predictive Maintenance Alert</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary);">HINO-C-01 (CNC Unit Alpha) is showing abnormal vibration patterns (average 16.5 mm/s over last 4 hours). Suggesting spindle bearing inspection within 48 hours.</p>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Main Content: Settings -->
+        <main class="main-content view-section" id="viewSettings" style="display: none;">
+            <header>
+                <h1>System Settings</h1>
+            </header>
+
+            <div class="content-grid">
+                <!-- Notifications -->
+                <section class="panel input-panel" style="grid-column: 1 / 2;">
+                    <h2>Alerts & Notifications</h2>
+                    <form id="settingsAlertsForm">
+                        <div class="criteria-list" style="margin-bottom: 2rem;">
+                            <div class="criteria-item">
+                                <input type="checkbox" id="emailAlerts" checked>
+                                <label for="emailAlerts">Enable Email Alerts to Line Managers</label>
+                            </div>
+                            <div class="criteria-item">
+                                <input type="checkbox" id="smsAlerts" checked>
+                                <label for="smsAlerts">Enable SMS Alerts for Critical Offline Events</label>
+                            </div>
+                            <div class="criteria-item">
+                                <input type="checkbox" id="weeklyReport">
+                                <label for="weeklyReport">Generate Weekly PDF Efficiency Reports</label>
+                            </div>
+                        </div>
+
+                        <h2>Thresholds</h2>
+                        <div class="form-group">
+                            <label for="threshVib">Global Vibration Alert Threshold (mm/s):</label>
+                            <input type="number" id="threshVib" value="15.0" step="0.5">
+                        </div>
+                        <button type="button" class="btn-primary" id="saveAlertSettings">
+                            <span>Save Alert Settings</span>
+                        </button>
+                    </form>
+                </section>
+
+                <!-- System Config -->
+                <section class="panel processing-panel" style="grid-column: 2 / 3;">
+                    <h2>Edge Server Configuration</h2>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label>Primary Edge Node IP:</label>
+                        <input type="text" value="192.168.10.150" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Cloud Sink Endpoint URL:</label>
+                        <input type="text" value="https://api.hino-cloud.com/v1/ingest" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Simulated Local Processing Delay (ms): <span id="valLocalDelay">15</span></label>
+                        <input type="range" id="localDelay" min="5" max="50" value="15" class="slider">
+                    </div>
+                    <div class="form-group">
+                        <label>Simulated Cloud Transmission Delay (ms): <span id="valCloudDelay">120</span></label>
+                        <input type="range" id="cloudDelay" min="50" max="300" value="120" class="slider">
+                    </div>
+                    <button type="button" class="btn-primary" id="saveServerSettings" style="margin-top: 1rem; background: linear-gradient(135deg, #444, #222);">
+                        <span>Restart Edge Service</span>
+                    </button>
+                    <p style="margin-top: 1rem; color: var(--danger); font-size: 0.8rem; text-align: center;">
+                        Warning: Restarting the edge service will halt task offloading for approximately 10 seconds.
+                    </p>
+                </section>
+            </div>
+        </main>
     </div>
 
     <!-- Algorithm Results Modal / Toast (Optional) -->

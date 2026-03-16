@@ -14,9 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // View Management
     const navDashboard = document.getElementById('navDashboard');
+    const navMachines = document.getElementById('navMachines');
     const navAlgorithms = document.getElementById('navAlgorithms');
+    const navSettings = document.getElementById('navSettings');
+    
     const viewDashboard = document.getElementById('viewDashboard');
+    const viewMachines = document.getElementById('viewMachines');
     const viewAlgorithms = document.getElementById('viewAlgorithms');
+    const viewSettings = document.getElementById('viewSettings');
     
     // Performance Chart Instance
     let perfChart;
@@ -195,11 +200,25 @@ document.addEventListener('DOMContentLoaded', () => {
         viewDashboard.style.display = 'flex';
     });
 
+    navMachines.addEventListener('click', (e) => {
+        e.preventDefault();
+        resetNav();
+        navMachines.parentElement.classList.add('active');
+        viewMachines.style.display = 'flex';
+    });
+
     navAlgorithms.addEventListener('click', (e) => {
         e.preventDefault();
         resetNav();
         navAlgorithms.parentElement.classList.add('active');
         viewAlgorithms.style.display = 'flex';
+    });
+
+    navSettings.addEventListener('click', (e) => {
+        e.preventDefault();
+        resetNav();
+        navSettings.parentElement.classList.add('active');
+        viewSettings.style.display = 'flex';
     });
 
     // Slider Logic for Algorithms View
@@ -217,6 +236,8 @@ document.addEventListener('DOMContentLoaded', () => {
     bindSlider('mutationRate', 'valMutationRate');
     bindSlider('cogWeight', 'valCogWeight');
     bindSlider('socWeight', 'valSocWeight');
+    bindSlider('localDelay', 'valLocalDelay');
+    bindSlider('cloudDelay', 'valCloudDelay');
 
     // Apply Parameters Logic
     document.getElementById('applyAlgoParams')?.addEventListener('click', () => {
@@ -228,6 +249,36 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.innerHTML = originalText;
             showToast('Algorithm optimization parameters applied successfully!');
         }, 800);
+    });
+
+    // Device Registration Logic
+    document.getElementById('newMachineForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector('button');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = `<div class="loader-spinner"></div>`;
+        
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            showToast('New Machine successfully provisioned to the Edge network.');
+            e.target.reset();
+        }, 1200);
+    });
+
+    // Alert Settings Logic
+    document.getElementById('saveAlertSettings')?.addEventListener('click', () => {
+        showToast('Notification and alert thresholds saved.');
+    });
+
+    document.getElementById('saveServerSettings')?.addEventListener('click', () => {
+        const btn = document.getElementById('saveServerSettings');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = `<div class="loader-spinner"></div>`;
+        
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            showToast('Edge Server restarted successfully.');
+        }, 2000);
     });
 
     function simulateTaskOffloading(machineTypeName) {
