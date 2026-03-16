@@ -16,15 +16,15 @@
                 <h2>Hino<span>Edge</span></h2>
             </div>
             <ul class="nav-links">
-                <li class="active"><a href="#">Dashboard</a></li>
-                <li><a href="#">Machines</a></li>
-                <li><a href="#">Algorithms</a></li>
-                <li><a href="#">Settings</a></li>
+                <li class="active"><a href="#" id="navDashboard">Dashboard</a></li>
+                <li><a href="#" id="navMachines">Machines</a></li>
+                <li><a href="#" id="navAlgorithms">Algorithms</a></li>
+                <li><a href="#" id="navSettings">Settings</a></li>
             </ul>
         </nav>
 
-        <!-- Main Content -->
-        <main class="main-content">
+        <!-- Main Content: Dashboard -->
+        <main class="main-content view-section" id="viewDashboard">
             <header>
                 <h1>System Monitoring Overview</h1>
             </header>
@@ -134,6 +134,82 @@
                                 <tr class="empty-row"><td colspan="6" style="text-align: center; color: var(--text-secondary);">No tasks processed yet.</td></tr>
                             </tbody>
                         </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Main Content: Algorithms -->
+        <main class="main-content view-section" id="viewAlgorithms" style="display: none;">
+            <header>
+                <h1>Algorithm Control Center</h1>
+            </header>
+
+            <div class="content-grid">
+                <!-- Parameter Tuning -->
+                <section class="panel input-panel">
+                    <h2>Particle Swarm Optimization (PSO) Tuning</h2>
+                    <form id="psoForm">
+                        <div class="form-group">
+                            <label for="swarmSize">Swarm Size (Particles): <span id="valSwarmSize">30</span></label>
+                            <input type="range" id="swarmSize" min="10" max="100" value="30" class="slider">
+                        </div>
+                        <div class="form-group">
+                            <label for="mutationRate">Mutation Rate (%): <span id="valMutationRate">5</span>%</label>
+                            <input type="range" id="mutationRate" min="0" max="100" value="5" class="slider">
+                        </div>
+                        <div class="form-group">
+                            <label for="cogWeight">Cognitive Weight (Local Best): <span id="valCogWeight">1.5</span></label>
+                            <input type="range" id="cogWeight" min="0" max="3" step="0.1" value="1.5" class="slider">
+                        </div>
+                        <div class="form-group">
+                            <label for="socWeight">Social Weight (Global Best): <span id="valSocWeight">2.0</span></label>
+                            <input type="range" id="socWeight" min="0" max="3" step="0.1" value="2.0" class="slider">
+                        </div>
+                        <button type="button" class="btn-primary" id="applyAlgoParams" style="margin-top: 1rem;">
+                            <span>Apply Parameters</span>
+                        </button>
+                    </form>
+                </section>
+
+                <section class="panel processing-panel">
+                    <h2>Greedy Best-First Search (GBFS) Criteria</h2>
+                    <div class="criteria-list">
+                        <div class="criteria-item">
+                            <input type="checkbox" id="critLatency" checked>
+                            <label for="critLatency">Minimum Latency Priority</label>
+                        </div>
+                        <div class="criteria-item">
+                            <input type="checkbox" id="critEnergy" checked>
+                            <label for="critEnergy">Energy Efficiency Priority</label>
+                        </div>
+                        <div class="criteria-item">
+                            <input type="checkbox" id="critQueue">
+                            <label for="critQueue">Shortest Queue Priority</label>
+                        </div>
+                        <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+                            GBFS actively evaluates available nodes based on the checked criteria. Unchecking an item removes it from the heuristic function.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="panel analytics-panel">
+                    <h2>Historical Accuracy</h2>
+                    <div class="accuracy-stats">
+                        <div class="accuracy-circle">
+                            <svg viewBox="0 0 36 36" class="circular-chart primary">
+                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="circle" stroke-dasharray="92, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <text x="18" y="20.35" class="percentage">92%</text>
+                            </svg>
+                            <p>Prediction Accuracy</p>
+                        </div>
+                        <div class="accuracy-details">
+                            <p><strong>Total Task Offloads Evaluated:</strong> 12,450</p>
+                            <p><strong>Optimal Path Chosen:</strong> 11,454 times</p>
+                            <p><strong>Sub-optimal Path Chosen (Fallbacks):</strong> 996 times</p>
+                            <p style="margin-top: 10px; color: var(--success);">Overall system learning is converging positively based on PSO particle distribution logic.</p>
+                        </div>
                     </div>
                 </section>
             </div>

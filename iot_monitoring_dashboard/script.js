@@ -12,6 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const toast = document.getElementById('toast');
     const backlogBody = document.getElementById('backlogBody');
     
+    // View Management
+    const navDashboard = document.getElementById('navDashboard');
+    const navAlgorithms = document.getElementById('navAlgorithms');
+    const viewDashboard = document.getElementById('viewDashboard');
+    const viewAlgorithms = document.getElementById('viewAlgorithms');
+    
     // Performance Chart Instance
     let perfChart;
     let chartTimeCounter = 0;
@@ -175,6 +181,54 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.bar').forEach(bar => bar.style.width = '0%');
         document.querySelectorAll('.labels span span[id^="val"]').forEach(lbl => lbl.textContent = '0');
     }
+
+    // View Switching Logic
+    function resetNav() {
+        document.querySelectorAll('.nav-links li').forEach(li => li.classList.remove('active'));
+        document.querySelectorAll('.view-section').forEach(view => view.style.display = 'none');
+    }
+
+    navDashboard.addEventListener('click', (e) => {
+        e.preventDefault();
+        resetNav();
+        navDashboard.parentElement.classList.add('active');
+        viewDashboard.style.display = 'flex';
+    });
+
+    navAlgorithms.addEventListener('click', (e) => {
+        e.preventDefault();
+        resetNav();
+        navAlgorithms.parentElement.classList.add('active');
+        viewAlgorithms.style.display = 'flex';
+    });
+
+    // Slider Logic for Algorithms View
+    function bindSlider(sliderId, valueSpanId) {
+        const slider = document.getElementById(sliderId);
+        const span = document.getElementById(valueSpanId);
+        if (slider && span) {
+            slider.addEventListener('input', (e) => {
+                span.textContent = e.target.value;
+            });
+        }
+    }
+
+    bindSlider('swarmSize', 'valSwarmSize');
+    bindSlider('mutationRate', 'valMutationRate');
+    bindSlider('cogWeight', 'valCogWeight');
+    bindSlider('socWeight', 'valSocWeight');
+
+    // Apply Parameters Logic
+    document.getElementById('applyAlgoParams')?.addEventListener('click', () => {
+        const btn = document.getElementById('applyAlgoParams');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = `<div class="loader-spinner"></div>`;
+        
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            showToast('Algorithm optimization parameters applied successfully!');
+        }, 800);
+    });
 
     function simulateTaskOffloading(machineTypeName) {
         // 1. Task Offloading Decision Simulation
