@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edge IoT Dashboard | Hino Motors</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation (Future Proofing) -->
+        <nav class="sidebar">
+            <div class="logo">
+                <h2>Hino<span>Edge</span></h2>
+            </div>
+            <ul class="nav-links">
+                <li class="active"><a href="#">Dashboard</a></li>
+                <li><a href="#">Machines</a></li>
+                <li><a href="#">Algorithms</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header>
+                <h1>System Monitoring Overview</h1>
+            </header>
+
+            <div class="content-grid">
+                <!-- Machine Selection and Input Panel -->
+                <section class="panel input-panel">
+                    <h2>Machine Operational Metrics</h2>
+                    <form id="machineDataForm">
+                        <div class="form-group">
+                            <label for="machineType">Select Machine Type:</label>
+                            <select id="machineType" required>
+                                <option value="" disabled selected>-- Select a Machine --</option>
+                                <option value="cnc">CNC Milling Machine</option>
+                                <option value="welding">Welding Machine</option>
+                                <option value="cutting">Cutting Machine</option>
+                                <option value="assembly">Assembly Line Equipment</option>
+                                <option value="painting">Painting Machine</option>
+                            </select>
+                        </div>
+
+                        <!-- Dynamic Metrics Container -->
+                        <div id="dynamicMetrics" class="metrics-grid">
+                            <!-- Input fields will be dynamically injected here via JS -->
+                        </div>
+
+                        <button type="submit" id="submitBtn" class="btn-primary" disabled>
+                            <span>Send to Edge Server</span>
+                            <div class="loader-spinner" style="display:none;"></div>
+                        </button>
+                    </form>
+                </section>
+
+                <!-- Processing Simulation Feedback Panel -->
+                <section class="panel processing-panel">
+                    <h2>Edge Processing Decision</h2>
+                    <div class="decision-output">
+                        <div class="node-indicator">
+                            <div class="node local" id="nodeLocal">Local</div>
+                            <div class="node edge" id="nodeEdge">Edge</div>
+                            <div class="node cloud" id="nodeCloud">Cloud</div>
+                        </div>
+                        <p id="decisionText">Waiting for data submission...</p>
+                    </div>
+                </section>
+
+                <!-- Analytics Dashboard -->
+                <section class="panel analytics-panel">
+                    <h2>Algorithm Performance Comparison</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Latency (ms)</h3>
+                            <div class="comparison-bar">
+                                <div class="bar gbfs-bar" id="latencyGbfs" style="width: 0%;" title="GBFS"></div>
+                                <div class="bar pso-bar" id="latencyPso" style="width: 0%;" title="PSO"></div>
+                            </div>
+                            <div class="labels"><span><span class="dot gbfs-dot"></span>GBFS <span id="valLatGbfs">0</span></span> <span><span class="dot pso-dot"></span>PSO <span id="valLatPso">0</span></span></div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Response Time (ms)</h3>
+                            <div class="comparison-bar">
+                                <div class="bar gbfs-bar" id="responseTimeGbfs" style="width: 0%;" title="GBFS"></div>
+                                <div class="bar pso-bar" id="responseTimePso" style="width: 0%;" title="PSO"></div>
+                            </div>
+                            <div class="labels"><span><span class="dot gbfs-dot"></span>GBFS <span id="valRtGbfs">0</span></span> <span><span class="dot pso-dot"></span>PSO <span id="valRtPso">0</span></span></div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Resource Util. (%)</h3>
+                            <div class="comparison-bar">
+                                <div class="bar gbfs-bar" id="resourceGbfs" style="width: 0%;" title="GBFS"></div>
+                                <div class="bar pso-bar" id="resourcePso" style="width: 0%;" title="PSO"></div>
+                            </div>
+                            <div class="labels"><span><span class="dot gbfs-dot"></span>GBFS <span id="valResGbfs">0</span></span> <span><span class="dot pso-dot"></span>PSO <span id="valResPso">0</span></span></div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Throughput (Tasks/s)</h3>
+                            <div class="comparison-bar">
+                                <div class="bar gbfs-bar" id="throughputGbfs" style="width: 0%;" title="GBFS"></div>
+                                <div class="bar pso-bar" id="throughputPso" style="width: 0%;" title="PSO"></div>
+                            </div>
+                            <div class="labels"><span><span class="dot gbfs-dot"></span>GBFS <span id="valThrGbfs">0</span></span> <span><span class="dot pso-dot"></span>PSO <span id="valThrPso">0</span></span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container" style="position: relative; height:250px; width:100%; margin-top: 2rem;">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </section>
+
+                <!-- Task Backlog -->
+                <section class="panel backlog-panel">
+                    <h2>Task Processing Backlog</h2>
+                    <div class="table-container">
+                        <table class="backlog-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Machine Type</th>
+                                    <th>Offload Node</th>
+                                    <th>GBFS Latency</th>
+                                    <th>PSO Latency</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="backlogBody">
+                                <!-- Dynamic rows injected here -->
+                                <tr class="empty-row"><td colspan="6" style="text-align: center; color: var(--text-secondary);">No tasks processed yet.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Algorithm Results Modal / Toast (Optional) -->
+    <div id="toast" class="toast hidden">Data processed successfully!</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
